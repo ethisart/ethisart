@@ -3,13 +3,13 @@ async function main() {
   const Colors = await ethers.getContractFactory("Colors");
   const colors = await Colors.deploy();
 
-  const Cranes = await ethers.getContractFactory("Cranes", {
+  const NFETH = await ethers.getContractFactory("NFETH", {
     libraries: { Colors: colors.address },
   });
-  const cranes = await Cranes.deploy();
+  const nfeth = await NFETH.deploy();
 
   console.log("Colors deployed to:", colors.address);
-  console.log("Cranes deployed to:", cranes.address);
+  console.log("NFETH deployed to:", nfeth.address);
 }
 
 main()

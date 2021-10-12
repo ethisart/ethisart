@@ -4,7 +4,7 @@ const { expect } = require("chai");
 const { beforeEach } = require("mocha");
 const { ethers } = require("hardhat");
 
-describe("Cranes", function () {
+describe("NFETH", function () {
   let contract;
   let owner;
   let wallet1;
@@ -13,17 +13,16 @@ describe("Cranes", function () {
   beforeEach(async function () {
     const ColorsContract = await hre.ethers.getContractFactory("Colors");
     const colors = await ColorsContract.deploy();
-    const CranesContract = await hre.ethers.getContractFactory("Cranes", {
+    const NFETHContract = await hre.ethers.getContractFactory("NFETH", {
       libraries: { Colors: colors.address },
     });
-    const TokenContract = await hre.ethers.getContractFactory("ERC721");
     [owner, wallet1, wallet2] = await hre.ethers.getSigners();
-    contract = await CranesContract.deploy();
+    contract = await NFETHContract.deploy();
   });
 
   it("has name and symbol", async function () {
-    expect(await contract.name()).to.equal("test");
-    expect(await contract.symbol()).to.equal("test");
+    expect(await contract.name()).to.equal("NFETH");
+    expect(await contract.symbol()).to.equal("NFETH");
   });
 
   it("has a grand total", async function () {

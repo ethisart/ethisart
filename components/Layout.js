@@ -6,7 +6,7 @@ export default function Layout({ children, ...props }) {
       <Head>
         <meta name="viewport" content="width=device-width" />
         <meta charSet="utf-8" />
-        <title>Cranes (for special wallets)</title>
+        <title>ETH IS ART</title>
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/icon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />

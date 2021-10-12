@@ -5,10 +5,10 @@ async function main() {
   const Colors = await ethers.getContractFactory("Colors");
   const colors = await Colors.deploy();
 
-  const Cranes = await ethers.getContractFactory("Cranes", {
+  const NFETH = await ethers.getContractFactory("NFETH", {
     libraries: { Colors: colors.address },
   });
-  const contract = await Cranes.deploy();
+  const contract = await NFETH.deploy();
 
   const signers = await hre.ethers.getSigners();
 
