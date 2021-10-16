@@ -23,7 +23,7 @@
 }
 
 @layer utilities {
-  .azaret {
+  .roboto {
     font-family: "Ubuntu";
   }
 
@@ -48,7 +48,7 @@
 
 html,
 * {
-  @apply azaret;
+  @apply roboto;
 }
 
 body {

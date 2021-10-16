@@ -133,7 +133,7 @@ function Home() {
                   onClick={mintForSelf}
                   className="rounded-full"
                 >
-                  Wrap NFeth
+                  Wrap 1 ETH
                 </MintButton>
 
                 
@@ -206,7 +206,7 @@ function Home() {
             <p>
               We all know ETH IS MONEY 💸... But now {" "}
             <span className="rainbow bg-clip-text text-transparent font-strong">
-              ETH IS ART
+            <strong>ETH IS ART</strong>
             </span>{" "} 🎨 as well! 
             <br />
             <br />
@@ -226,7 +226,7 @@ The NFeth can <strong><u>always</u></strong> be redeemed back to 1 ETH, but the 
             Limited Supply, Equally Rare and Fully Onchain?
             </H4>
             <p>
-            To keep the NFeths <span className="rainbow bg-clip-text text-transparent font-bold">
+            To keep the NFeths <span className="font-bold rainbow bg-clip-text text-transparent">
               rare and special
             </span>{" "} there is a max supply of 10,000 NFeths. All NFeths are randomly generated from the same SVG template, seeded with random colors based on the time it was minted, and the destination address. There are no special traits, so each NFeth is equally rare and special. The SVG data is stored fully onchain, so your NFeth will live on forever.
             </p>
@@ -248,6 +248,12 @@ The NFeth can <strong><u>always</u></strong> be redeemed back to 1 ETH, but the 
             <H4>Inspired by Cranes</H4>
             <p>
             The contract code and frontend are inspired by <A href="http://cranes.supply/">Cranes</A> - another great project that you should definitely check out.
+            </p>
+          </div>
+          <div>
+            <H4>Disclaimer</H4>
+            <p>
+            ETH IS ART 🎨 is not audited, but the contract code is very simple, and has been externally reviewed, tested and utilizes mostly standard contracts by OpenZeppelin. The code is fully open source for your verification. <A href="#">See this disclaimer</A> and use at your own discretion.
             </p>
           </div>
           <div>

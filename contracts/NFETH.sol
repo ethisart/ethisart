@@ -43,7 +43,7 @@ contract NFETH is ERC721, ERC721Enumerable {
   }
 
   function mintForSelf() public payable virtual {
-    require(msg.value >= (wrapAmount+price), "PRICE_NOT_MET");
+    require(msg.value == (wrapAmount+price), "PRICE_NOT_MET");
     require(payable(ownerRecipient).send(halfPrice));
     require(payable(donationRecipient).send(halfPrice));
     _mint(msg.sender);
