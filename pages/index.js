@@ -113,7 +113,7 @@ function Home() {
           <h1 className="md:text-8xl font-black text-center">ETH IS ART 🎨</h1>
           <div className="h-8"></div>
           <h2 className="tracking-tight md:text-3xl max-w-5xl">
-            Wrap your ETH into an NFeth: A randomly generated fully onchain masterpiece, redeemable for ETH. 
+            Wrap 1 ETH into an NFeth - A randomly generated and fully onchain ETH artwork, always redeemable for 1 ETH. 
           </h2>
           
         </header>
@@ -143,7 +143,7 @@ function Home() {
                   </p>
                   <p>
                     All NFeths are randomly generated and equally rare. The result will be different for each NFeth
-                    depending on its number and destination address.
+                    depending on the block time, token number and destination address.
                   </p>
                   <p>
                     {totalMinted}/10,000 NFeths have been minted.
@@ -210,11 +210,25 @@ function Home() {
             </span>{" "} 🎨 as well! 
             <br />
             <br />
-            ETH IS ART allows you to wrap 1 ETH into a randomly generated, fully onchain, artwork - a Non-fungible ETH. In short, you can make your Ether <strong>RARE and FANCY!</strong> <br /> <br />
+            ETH IS ART allows you to wrap 1 ETH into a randomly generated, fully onchain, ETH artwork - a Non-fungible ETH. In short, you can make your Ether <span className="font-bold rainbow bg-clip-text text-transparent">
+              rare and special
+            </span>{""}! <br /> <br />
 The NFeth can <strong><u>always</u></strong> be redeemed back to 1 ETH, but the artwork will in return be destroyed. Kind of like a digital piggy bank - to redeem the ETH you must break open the NFeth.
 
             </p>
             </div>
+            <div>
+            <H4>How do I wrap ETH into an NFeth?</H4>
+            <p>
+              By connecting with Ethereum wallet above, you will be able to mint an NFeth, using the "Wrap 1 ETH" button. You need to have at least 1 ETH + 0.02 ETH to cover wrapping fee + gas cost to wrap your ETH. After wrapping, your NFeth should show up in your account instantly.
+            </p>
+          </div>
+          <div>
+            <H4>How do I redeem my NFeth for ETH?</H4>
+            <p>
+              If you wish to redeem your NFeth for 1 ETH, you must connect with your Ethereum wallet above, and input the Token ID of your NFeth, and click "Redeem NFeth for ETH". You can find your Token ID by navigating to your account on Etherscan, or by viewing it on OpenSea.
+            </p>
+          </div>
           <div>
             <H4>Why wrap ETH into an NFeth?</H4>
             <p>
@@ -223,7 +237,7 @@ The NFeth can <strong><u>always</u></strong> be redeemed back to 1 ETH, but the 
           </div>
           <div>
             <H4>
-            Limited Supply, Equally Rare and Fully Onchain?
+            Limited supply, equally rare and fully onchain
             </H4>
             <p>
             To keep the NFeths <span className="font-bold rainbow bg-clip-text text-transparent">
@@ -234,12 +248,12 @@ The NFeth can <strong><u>always</u></strong> be redeemed back to 1 ETH, but the 
           <div>
             <H4>Ultra Sound Art</H4>
             <p>
-            The idea behind NFeth is to experiment with value backed NFTs that will gradually also decrease in supply. Because some NFeth owners might choose to redeem their tokens for the underlying 1 ETH, there should be less and less NFeths in circulation. ETH is Ultra Sound Art. 🦇🔊🎨
+            The idea behind NFeth is to experiment with value backed NFTs that will gradually also decrease in supply. Because some NFeth owners might choose to redeem their tokens for the underlying 1 ETH, the amount of NFeths in existence should decrease overtime. NFeth is Ultra Sound Art. 🦇🔊🎨
             </p>
           </div>
           <div>  
       
-            <H4>Funding a public good</H4>
+            <H4>Minting fee funding a public good</H4>
             <p>
             To avoid griefing from someone using flash loans to generate a lot of NFeths, only to burn them again to reduce supply, there is a minting fee of 0.02 ETH. Half of the fee (0.01 ETH) goes to the creator (spoiler alert it‘s me), and the other half (0.01 ETH) goes to a public good. I have chosen <A href="https://etherscan.io/">Etherscan</A> as the recipient of the other half of the fee, as they provide critical infrastructure for the entire Ethereum Community. You can therefore feel very good about minting an NFeth. Give yourself a pat on the back.
             </p>

@@ -14,7 +14,7 @@ contract NFETH is ERC721, ERC721Enumerable {
   using Strings for uint256;
 
   uint256 public constant MAX_ETHERPIECES = 10000;
-  string public constant DESCRIPTION = "ETH IS ART are limited supply of Ether wrapped as redeemable NFT artworks";
+  string public constant DESCRIPTION = "ETH IS ART allows you to wrap 1 ETH into a randomly generated and fully onchain ETH artwork";
   uint256 public wrapAmount = 0.001 ether; //TODO CHANGE
   uint256 public price = 0.0002 ether; //TODO CHANGE
   uint256 public halfPrice = 0.0001 ether; //TODO CHANGE
@@ -30,9 +30,9 @@ contract NFETH is ERC721, ERC721Enumerable {
   function _mint(address destination) private {
     require(_tokenIdCounter.current() + 1 <= MAX_ETHERPIECES, "MAX_REACHED");
 
+    uint256 time = getCurrentTime();
     uint256 tokenId = _tokenIdCounter.current()+1;
     uint256 destinationSeed = uint256(uint160(destination)) % 10000000;
-    uint256 time = getCurrentTime();
 
     _safeMint(destination, tokenId);
 
