@@ -198,7 +198,7 @@ function Home() {
         <img src="/last-12.svg" className="" />
       </div>
 
-      <div className="p-5 md:p-16 space-y-4 md:space-y-16">
+      <div className="p-4 md:p-16 space-y-4 md:space-y-16">
         <div className="space-y-4 md:space-y-8 font-light">
           <h2 className="md:text-8xl md:font-thin">Info</h2>
           <div>
@@ -232,7 +232,7 @@ The NFeth can <strong><em>always</em></strong> be redeemed back to 1 ETH, but th
           <div>
             <H4>Why wrap ETH into an NFeth?</H4>
             <p>
-            Just like you can wrap ETH into WETH to give it the superpowers of an ERC20 token, you can now wrap your ETH into an <strong><em>ERC721 token</em></strong> - aka an NFT. This means being able to display your beautiful, and now rare, ETH as art in galleries or in the metaverse. Or integrate it into your next project. What you do with it is up to you.
+            Just like you can wrap ETH into WETH to give it the superpowers of an ERC20 token, you can now wrap your ETH into an <strong><em>ERC721 token</em></strong> - aka an NFT. Some have a personal attachment to their ETH, and now you will be able to display your beautiful, and now rare, ETH as art in galleries or bring it with you into the metaverse. Or integrate it into your next project. What you do with it is up to you.
             </p>
           </div>
           <div>

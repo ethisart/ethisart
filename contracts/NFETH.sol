@@ -25,7 +25,7 @@ contract NFETH is ERC721, ERC721Enumerable {
   Counters.Counter private _tokenIdCounter;
   mapping(uint256 => uint256[3]) private _seeds;
 
-  constructor() ERC721("NFETH", "NFETH") {}
+  constructor() ERC721("NFeth", "NFETH") {}
 
   function _mint(address destination) private {
     require(_tokenIdCounter.current() + 1 <= MAX_ETHERPIECES, "MAX_REACHED");
@@ -109,7 +109,7 @@ contract NFETH is ERC721, ERC721Enumerable {
     output = string(abi.encodePacked(output, parts[11], parts[12], parts[13], parts[14], parts[15], parts[16], parts[17], parts[18], parts[19], parts[20]));
     output = string(abi.encodePacked(output, parts[21], parts[22], parts[23], parts[24], parts[25], parts[26]));
 
-    output = Base64.encode(bytes(string(abi.encodePacked('{"name":"NFETH #', count, '","description":"', DESCRIPTION, '","image": "data:image/svg+xml;base64,', Base64.encode(bytes(output)), '"}'))));
+    output = Base64.encode(bytes(string(abi.encodePacked('{"name":"NFeth #', count, '","description":"', DESCRIPTION, '","image": "data:image/svg+xml;base64,', Base64.encode(bytes(output)), '"}'))));
     output = string(abi.encodePacked("data:application/json;base64,", output));
 
     return output;
