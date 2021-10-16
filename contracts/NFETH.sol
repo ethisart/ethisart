@@ -14,7 +14,7 @@ contract NFETH is ERC721, ERC721Enumerable {
   using Strings for uint256;
 
   uint256 public constant MAX_ETHERPIECES = 10000;
-  string public constant DESCRIPTION = "ETH IS ART allows you to wrap 1 ETH into a randomly generated and fully onchain ETH artwork";
+  string public constant DESCRIPTION = "ETH IS ART allows you to wrap 1 ETH into a randomly generated and fully onchain ETH artwork - an NFeth";
   uint256 public wrapAmount = 0.001 ether; //TODO CHANGE
   uint256 public price = 0.0002 ether; //TODO CHANGE
   uint256 public halfPrice = 0.0001 ether; //TODO CHANGE

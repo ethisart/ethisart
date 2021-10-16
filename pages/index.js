@@ -200,7 +200,7 @@ function Home() {
 
       <div className="p-5 md:p-16 space-y-4 md:space-y-16">
         <div className="space-y-4 md:space-y-8 font-light">
-          <h2 className="md:text-8xl md:font-thin">FAQ</h2>
+          <h2 className="md:text-8xl md:font-thin">Info</h2>
           <div>
             <H4>What is an <em>NFeth?</em></H4>
             <p>
@@ -213,7 +213,7 @@ function Home() {
             ETH IS ART allows you to wrap 1 ETH into a randomly generated, fully onchain, ETH artwork - a Non-fungible ETH. In short, you can make your Ether <span className="font-bold rainbow bg-clip-text text-transparent">
               rare and special
             </span>{""}! <br /> <br />
-The NFeth can <strong><u>always</u></strong> be redeemed back to 1 ETH, but the artwork will in return be destroyed. Kind of like a digital piggy bank - to redeem the ETH you must break open the NFeth.
+The NFeth can <strong><em>always</em></strong> be redeemed back to 1 ETH, but the artwork will in return be destroyed. Kind of like a digital piggy bank - to redeem the ETH you must break open the NFeth.
 
             </p>
             </div>
@@ -232,7 +232,7 @@ The NFeth can <strong><u>always</u></strong> be redeemed back to 1 ETH, but the 
           <div>
             <H4>Why wrap ETH into an NFeth?</H4>
             <p>
-            Just like you can wrap ETH into WETH to give it the superpowers of an ERC20 token, you can now wrap your ETH into an <u>ERC721 token</u> - aka an NFT. This means being able to display your beautiful, and now rare, ETH as art in galleries or in the metaverse. Or integrate it into your next project. What you do with it is up to you.
+            Just like you can wrap ETH into WETH to give it the superpowers of an ERC20 token, you can now wrap your ETH into an <strong><em>ERC721 token</em></strong> - aka an NFT. This means being able to display your beautiful, and now rare, ETH as art in galleries or in the metaverse. Or integrate it into your next project. What you do with it is up to you.
             </p>
           </div>
           <div>
@@ -255,7 +255,7 @@ The NFeth can <strong><u>always</u></strong> be redeemed back to 1 ETH, but the 
       
             <H4>Minting fee funding a public good</H4>
             <p>
-            To avoid griefing from someone using flash loans to generate a lot of NFeths, only to burn them again to reduce supply, there is a minting fee of 0.02 ETH. Half of the fee (0.01 ETH) goes to the creator (spoiler alert it‘s me), and the other half (0.01 ETH) goes to a public good. I have chosen <A href="https://etherscan.io/">Etherscan</A> as the recipient of the other half of the fee, as they provide critical infrastructure for the entire Ethereum Community. You can therefore feel very good about minting an NFeth. Give yourself a pat on the back.
+            To avoid griefing from someone using flash loans to generate a lot of NFeths, only to burn them again to reduce supply, there is a minting fee of 0.02 ETH. Half of the fee (0.01 ETH) goes to the creator (spoiler alert it‘s me), and the other half (0.01 ETH) goes to a public good. I have chosen <A href="https://etherscan.io/">Etherscan</A> as the recipient of the other half of the fee, as they provide critical infrastructure for the entire Ethereum Community (<A href="https://etherscan.io/address/0x71c7656ec7ab88b098defb751b7401b5f6d8976f">see donation address here</A>). You can therefore feel very good about minting an NFeth. Give yourself a pat on the back.
             </p>
           </div>
           <div>
@@ -267,13 +267,13 @@ The NFeth can <strong><u>always</u></strong> be redeemed back to 1 ETH, but the 
           <div>
             <H4>Disclaimer</H4>
             <p>
-            ETH IS ART 🎨 is not audited, but the contract code is very simple, and has been externally reviewed, tested and utilizes mostly standard contracts by OpenZeppelin. The code is fully open source for your verification. <A href="#">See this disclaimer</A> and use at your own discretion.
+            ETH IS ART 🎨 is not audited, but the contract code is very simple, and has been externally reviewed, tested and utilizes mostly standard contracts by OpenZeppelin. There are no admin functions and the contract cannot be upgraded, so what you see is what you get. The code is fully <A href="https://github.com/ethisart/ethisart/blob/main/contracts/NFETH.sol">open source for your verification</A>. <A href="https://github.com/ethisart/ethisart#disclaimer">See this disclaimer</A> and use at your own discretion.
             </p>
           </div>
           <div>
             <H4>Licensing</H4>
             <p>
-            ETH IS ART 🎨 is public domain and can be used in any way you wish.
+            The ETH IS ART 🎨 website, contract code and NFeth assets are all <strong>Public Domain</strong> and can be used in any way you wish.
             </p>
           </div>
         </div>
@@ -286,8 +286,11 @@ The NFeth can <strong><u>always</u></strong> be redeemed back to 1 ETH, but the 
         <A href="#">
           OpenSea
         </A>{" "}
-        &bull; <A href="">GitHub</A> &bull;{" "}
-        <A href="#">Twitter</A>
+        &bull;{" "}<A href="https://twitter.com/ETH_IS_ART">Twitter</A>{" "}
+        &bull;{" "}
+        <A href="https://github.com/ethisart/ethisart/">GitHub</A>{" "}
+        &bull;{" "}
+        <A href="https://github.com/ethisart/ethisart#disclaimer">Disclaimer</A>
       </div>
 
       <div className="fixed inset-x-0 bottom-0 bg-white dark:bg-gray-800 shadow-2xl border-t-2 border-gray-100 py-3 px-5">
