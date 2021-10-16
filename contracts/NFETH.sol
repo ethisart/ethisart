@@ -14,7 +14,7 @@ contract NFETH is ERC721, ERC721Enumerable {
   using Strings for uint256;
 
   uint256 public constant MAX_ETHERPIECES = 10000;
-  string public constant DESCRIPTION = "test";//TODO CHANGE TO:"ETH IS ART are limited supply of Ether wrapped as redeemable NFT artworks";
+  string public constant DESCRIPTION = "ETH IS ART are limited supply of Ether wrapped as redeemable NFT artworks";
   uint256 public wrapAmount = 0.001 ether; //TODO CHANGE
   uint256 public price = 0.0002 ether; //TODO CHANGE
   uint256 public halfPrice = 0.0001 ether; //TODO CHANGE
@@ -49,13 +49,6 @@ contract NFETH is ERC721, ERC721Enumerable {
     _mint(msg.sender);
   }
 
-  function mintForFriend(address walletAddress) public payable virtual {
-    require(msg.value >= (wrapAmount+price), "PRICE_NOT_MET");
-    require(payable(ownerRecipient).send(halfPrice));
-    require(payable(donationRecipient).send(halfPrice));
-    _mint(walletAddress);
-  }
-
   function redeemForEth(uint256 tokenId) public {
     require(msg.sender == ERC721.ownerOf(tokenId), "NOT OWNER");
     _burn(tokenId);
@@ -66,7 +59,7 @@ contract NFETH is ERC721, ERC721Enumerable {
   function getCurrentTime() private view returns (uint256) {
     return block.timestamp;
   }
-  
+
   function getSupply() public view returns (uint256) {
     return _tokenIdCounter.current();
   }
@@ -116,7 +109,7 @@ contract NFETH is ERC721, ERC721Enumerable {
     output = string(abi.encodePacked(output, parts[11], parts[12], parts[13], parts[14], parts[15], parts[16], parts[17], parts[18], parts[19], parts[20]));
     output = string(abi.encodePacked(output, parts[21], parts[22], parts[23], parts[24], parts[25], parts[26]));
 
-    output = Base64.encode(bytes(string(abi.encodePacked('{"name":"test #', count, '","description":"', DESCRIPTION, '","image": "data:image/svg+xml;base64,', Base64.encode(bytes(output)), '"}'))));
+    output = Base64.encode(bytes(string(abi.encodePacked('{"name":"NFETH #', count, '","description":"', DESCRIPTION, '","image": "data:image/svg+xml;base64,', Base64.encode(bytes(output)), '"}'))));
     output = string(abi.encodePacked("data:application/json;base64,", output));
 
     return output;

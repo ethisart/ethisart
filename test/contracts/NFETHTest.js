@@ -53,22 +53,22 @@ describe("NFETH", function () {
       })
     ).to.be.revertedWith("PRICE_NOT_MET");
 
-    await expect(
-      contractAsWallet.mintForFriend(wallet2.address, {
-        value: ethers.utils.parseEther("0.0002"),
-      })
-    ).to.be.revertedWith("PRICE_NOT_MET");
+    // await expect(
+    //   contractAsWallet.mintForFriend(wallet2.address, {
+    //     value: ethers.utils.parseEther("0.0002"),
+    //   })
+    // ).to.be.revertedWith("PRICE_NOT_MET");
   });
 
-  it("can be crafted by anyone for someone else", async function () {
-    const contractAsWallet = await contract.connect(wallet1);
-    const token = await contractAsWallet.mintForFriend(wallet2.address, {
-      value: ethers.utils.parseEther("0.0012"),
-    });
-    expect(await contract.balanceOf(owner.address)).to.equal(0);
-    expect(await contract.balanceOf(wallet1.address)).to.equal(0);
-    expect(await contract.balanceOf(wallet2.address)).to.equal(1);
-  });
+  // it("can be crafted by anyone for someone else", async function () {
+  //   const contractAsWallet = await contract.connect(wallet1);
+  //   const token = await contractAsWallet.mintForFriend(wallet2.address, {
+  //     value: ethers.utils.parseEther("0.0012"),
+  //   });
+  //   expect(await contract.balanceOf(owner.address)).to.equal(0);
+  //   expect(await contract.balanceOf(wallet1.address)).to.equal(0);
+  //   expect(await contract.balanceOf(wallet2.address)).to.equal(1);
+  // });
 
   it("donator and owner receives revenue", async function () {
     //console.log(ethers.provider.getBalance(contractAsWallet.ownerRecipient()));
@@ -154,14 +154,13 @@ describe("NFETH", function () {
 
   it("cannot redeem nfts of other", async function () {
     const contractAsWallet = await contract.connect(wallet1);
+    const contractAsWallet2 = await contract.connect(wallet2);
     const tokenId = 1;  
     expect(await contract.balanceOf(wallet1.address)).to.equal(0)
-    await contractAsWallet.mintForFriend(wallet2.address, {
-      value: ethers.utils.parseEther("0.0012"),
-    });
-    expect(await contract.balanceOf(wallet1.address)).to.equal(0)
-    expect(await contract.balanceOf(wallet2.address)).to.equal(1)
-    expect(contractAsWallet.redeemForEth(tokenId)).to.be.revertedWith("NOT OWNER");
+    await contractAsWallet.mintForSelf({value: ethers.utils.parseEther("0.0012"),});
+    expect(await contract.balanceOf(wallet1.address)).to.equal(1)
+    expect(await contract.balanceOf(wallet2.address)).to.equal(0)
+    expect(contractAsWallet2.redeemForEth(tokenId)).to.be.revertedWith("NOT OWNER");
   });
 
   // it("cannot redeem nfts of other after transfer", async function () {
@@ -186,13 +185,7 @@ describe("NFETH", function () {
     
     const contractAsWallet = await contract.connect(wallet1);
 
-    const token1 = await contractAsWallet.mintForFriend(wallet2.address, {
-      value: ethers.utils.parseEther("0.0012"),
-    });
-    
-    const token = await contractAsWallet.mintForFriend(wallet2.address, {
-      value: ethers.utils.parseEther("0.0012"),
-    });
+    const token = await contractAsWallet.mintForSelf({value: ethers.utils.parseEther("0.0012"),});
     
     const uri = await contract.tokenURI(i);
     expect(uri).to.match(/^data:/);

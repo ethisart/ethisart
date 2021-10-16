@@ -4,7 +4,7 @@ import { useWeb3React } from "@web3-react/core";
 import { InjectedConnector } from "@web3-react/injected-connector";
 import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
 import cn from "classnames";
-import debounce from "debounce";
+//import debounce from "debounce";
 import { SelfBuildingSquareSpinner } from "react-epic-spinners";
 import { Link } from "react-feather";
 import Layout from "../components/Layout";
@@ -35,7 +35,6 @@ function Home() {
   const [totalMinted, setTotal] = useState(0);
   const [tokenId, settokenId] = useState("");
   const [transactionHash, setTransactionHash] = useState(null);
-  const friendField = useRef();
   const redeemField = useRef();
 
   useEffect(() => {
@@ -71,7 +70,7 @@ function Home() {
     contract.methods
       .mintForSelf()
       .send(
-        { from: account, value: utils.toWei("0.012", "ether") }, //TODO SET TO 1.02 ETH
+        { from: account, value: utils.toWei("0.0012", "ether") }, //TODO SET TO 1.02 ETH
         (err, hsh) => {
           if (err) return handleError(err);
           setTransactionHash(hsh);
@@ -84,13 +83,15 @@ function Home() {
   }
 
   function redeemForEth() {
+    redeemField.current.focus();
+    
     setWorking(true);
     setError(null);
 
     contract.methods
-      .redeemForEth()
+      .redeemForEth(tokenId)
       .send(
-        { from: account, value: utils.toWei("0.012", "ether") }, //TODO SET TO 1.02 ETH
+        { from: account, value: utils.toWei("0", "ether") },
         (err, hsh) => {
           if (err) return handleError(err);
           setTransactionHash(hsh);
