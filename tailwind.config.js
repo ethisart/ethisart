@@ -5,7 +5,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'dark-purple': '#201221'
+        'black': '#070514'
       }
     }
   },

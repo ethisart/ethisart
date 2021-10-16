@@ -1,5 +1,5 @@
 export default function TestPage() {
-  const times = Array.from(Array(1000));
+  const times = Array.from(Array(100));
 
   return (
     <main className="grid grid-cols-8">

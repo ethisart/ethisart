@@ -42,14 +42,14 @@ contract NFETH is ERC721, ERC721Enumerable {
     _tokenIdCounter.increment();
   }
 
-  function craftForSelf() public payable virtual {
+  function mintForSelf() public payable virtual {
     require(msg.value >= (wrapAmount+price), "PRICE_NOT_MET");
     require(payable(ownerRecipient).send(halfPrice));
     require(payable(donationRecipient).send(halfPrice));
     _mint(msg.sender);
   }
 
-  function craftForFriend(address walletAddress) public payable virtual {
+  function mintForFriend(address walletAddress) public payable virtual {
     require(msg.value >= (wrapAmount+price), "PRICE_NOT_MET");
     require(payable(ownerRecipient).send(halfPrice));
     require(payable(donationRecipient).send(halfPrice));
@@ -65,6 +65,10 @@ contract NFETH is ERC721, ERC721Enumerable {
 
   function getCurrentTime() private view returns (uint256) {
     return block.timestamp;
+  }
+  
+  function getSupply() public view returns (uint256) {
+    return _tokenIdCounter.current();
   }
 
   function tokenURI(uint256 tokenId) public view override returns (string memory) {

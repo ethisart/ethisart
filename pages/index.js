@@ -10,10 +10,6 @@ import { Link } from "react-feather";
 import Layout from "../components/Layout";
 import Web3Provider from "../components/Web3Provider";
 import { address as nfethAddress, abi as nfethABI } from "../src/nfteth";
-import {
-  address as specialsAddress,
-  abi as specialsABI,
-} from "../src/specials";
 
 const injected = new InjectedConnector({ supportedChainIds: [1, 3, 4, 5, 42] });
 const wcConnector = new WalletConnectConnector({
@@ -35,13 +31,12 @@ function Home() {
   const [success, setSuccess] = useState(false);
   const [working, setWorking] = useState(true);
   const [contract, setContract] = useState(null);
-  const [specialsContract, setSpecialsContract] = useState(null);
   const [error, setError] = useState(null);
-  const [yearTotal, setYearTotal] = useState(0);
-  const [friendAddress, setFriendAddress] = useState("");
-  const [realFriendAddress, setRealFriendAddress] = useState("");
+  const [totalMinted, setTotal] = useState(0);
+  const [tokenId, settokenId] = useState("");
   const [transactionHash, setTransactionHash] = useState(null);
   const friendField = useRef();
+  const redeemField = useRef();
 
   useEffect(() => {
     if (!library) return;
@@ -50,35 +45,17 @@ function Home() {
 
     const contract = new library.eth.Contract(nfethABI, nfethAddress);
     setContract(contract);
-    const specialsContract = new library.eth.Contract(
-      specialsABI,
-      specialsAddress
-    );
-    setSpecialsContract(specialsContract);
-
+    
     contract.methods
-      .currentYearTotalSupply()
+      .getSupply()
       .call()
       .then((res) => {
-        setYearTotal(res);
-        setSoldOut(res >= 1000);
+        setTotal(res);
+        setSoldOut(res >= 10000);
       }, handleError);
 
     setWorking(false);
   }, [account]);
-
-  useEffect(() => {
-    if (!friendAddress) return;
-
-    if (friendAddress.match(/0x[a-fA-F0-9]{40}/)) {
-      setRealFriendAddress(friendAddress);
-      return;
-    }
-
-    if (friendAddress.match(/\./)) {
-      debouncedLookup();
-    }
-  }, [friendAddress]);
 
   function handleError(err) {
     console.error(err);
@@ -87,14 +64,14 @@ function Home() {
     setError(err);
   }
 
-  function craftForSelf() {
+  function mintForSelf() {
     setWorking(true);
     setError(null);
 
     contract.methods
-      .craftForSelf()
+      .mintForSelf()
       .send(
-        { from: account, value: utils.toWei("0.02", "ether") },
+        { from: account, value: utils.toWei("0.012", "ether") }, //TODO SET TO 1.02 ETH
         (err, hsh) => {
           if (err) return handleError(err);
           setTransactionHash(hsh);
@@ -106,18 +83,14 @@ function Home() {
       }, handleError);
   }
 
-  function craftForFriend() {
-    if (!realFriendAddress) {
-      friendField.current.focus();
-    }
-
+  function redeemForEth() {
     setWorking(true);
     setError(null);
 
     contract.methods
-      .craftForFriend(realFriendAddress)
+      .redeemForEth()
       .send(
-        { from: account, value: utils.toWei("0.02", "ether") },
+        { from: account, value: utils.toWei("0.012", "ether") }, //TODO SET TO 1.02 ETH
         (err, hsh) => {
           if (err) return handleError(err);
           setTransactionHash(hsh);
@@ -129,49 +102,23 @@ function Home() {
       }, handleError);
   }
 
-  function craftSpecial(num) {
-    return () => {
-      setWorking(true);
-      setError(null);
-
-      specialsContract.methods
-        .craftWithCrane(num)
-        .send({ from: account }, (err, hsh) => {
-          if (err) return handleError(err);
-          setTransactionHash(hsh);
-        })
-        .then(() => {
-          setSuccess(true);
-          setWorking(false);
-        }, handleError);
-    };
-  }
-
-  const debouncedLookup = debounce(async () => {
-    setWorking(true);
-    try {
-      const address = await library.eth.ens.getAddress(friendAddress);
-      setRealFriendAddress(address);
-    } catch {}
-
-    setWorking(false);
-  }, 1000);
+  
   const times = Array.from(Array(1));
   return (
     <Layout>
     
       <div className="p-5 md:p-16">
         <header className="leading-normal">
-          <h1 className="md:text-8xl font-bold">ETH IS ART 🎨</h1>
+          <h1 className="md:text-8xl font-black text-center">ETH IS ART 🎨</h1>
+          <div className="h-8"></div>
           <h2 className="tracking-tight md:text-3xl max-w-5xl">
-            Wrap your ETH into an "NFeth" masterpiece. 
+            Wrap your ETH into an NFeth: A randomly generated fully onchain masterpiece, redeemable for ETH. 
           </h2>
-          <p>1 NFeth = 1 ETH</p>
           
         </header>
 
         <div className="h-8"></div>
-
+        
         <div className="md:flex">
 
           <div className="flex-0 w-full flex flex-col space-y-4 md:max-w-md">
@@ -182,59 +129,52 @@ function Home() {
               <div>
                 <MintButton
                   disabled={working || soldOut}
-                  onClick={craftForSelf}
+                  onClick={mintForSelf}
                   className="rounded-full"
                 >
-                  Mint NFeth (Ξ0.02)
+                  Wrap NFeth
                 </MintButton>
 
-                <div className="h-2"></div>
+                
+                <div className="text-sm space-y-2 leading-normal">
+                  <p>
+                    <strong>Wrapping cost is Ξ0.02</strong>{" "}
+                  </p>
+                  <p>
+                    All NFeths are randomly generated and equally rare. The result will be different for each NFeth
+                    depending on its number and destination address.
+                  </p>
+                  <p>
+                    {totalMinted}/10,000 NFeths have been minted.
+                  </p>
 
-                <div className="flex flex-col">
+                  <progress className="w-full" max={10000} value={totalMinted} />
+                  
+                  <div className="flex flex-col">
+                  <p>
+                  <strong>Redeem NFeth for ETH</strong>
+                  </p>
+                  <p>
+                    Input your NFeth token id to redeem it for ETH. (Warning: This will destroy the NFeth forever)
+                  </p>
                   <input
-                    ref={friendField}
+                    ref={redeemField}
                     className="input text-sm md:text-lg rounded-2xl rounded-b-none"
-                    value={friendAddress}
+                    value={tokenId}
                     onChange={(event) => {
-                      setFriendAddress(event.target.value);
+                      settokenId(event.target.value);
                     }}
                     disabled={working || soldOut}
-                    placeholder={"0x… or ENS domain"}
+                    placeholder={"Input token id (E.g. 3)"}
                   />
                   <MintButton
                     disabled={working || soldOut}
                     className="rounded-2xl rounded-t-none"
-                    onClick={craftForFriend}
+                    onClick={redeemForEth}
                   >
-                    Mint for a friend (Ξ0.02)
+                    Redeem NFeth for ETH
                   </MintButton>
                 </div>
-
-                {realFriendAddress && (
-                  <div className="text-sm truncate">
-                    Sending to{" "}
-                    <code className="bg-gray-100" title={realFriendAddress}>
-                      {realFriendAddress}
-                    </code>
-                  </div>
-                )}
-
-                <div className="text-sm space-y-2 leading-normal">
-                  <p>
-                    <strong>NFeths are Ξ0.02</strong>{" "}
-                  </p>
-                  <p>
-                    You can mint one for yourself or for a
-                    friend. All NFeths are randomly generated and equally rare. The result will be different for each NFeth
-                    depending on its number and destination address.
-                  </p>
-                  <p>
-                    {yearTotal}/10,000 NFeths have been minted.
-                  </p>
-
-                  <progress className="w-full" max={10000} value={yearTotal} />
-
-                  
                 </div>
               </div>
             )}
@@ -242,13 +182,19 @@ function Home() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3">
+      <div className="grid grid-cols-6 md:grid-cols-6">
         <img src="/last-0.svg" className="" />
+        <img src="/last-1.svg" className="" />
+        <img src="/last-2.svg" className="" />
         <img src="/last-3.svg" className="" />
+        <img src="/last-4.svg" className="" />
+        <img src="/last-5.svg" className="" />
         <img src="/last-6.svg" className="" />
-        <img src="/last-9.svg" className="" />
+        <img src="/last-7.svg" className="" />
+        <img src="/last-14.svg" className="" />
+        <img src="/last-15.svg" className="" />
+        <img src="/last-10.svg" className="" />
         <img src="/last-12.svg" className="" />
-        <img src="/last-13.svg" className="" />
       </div>
 
       <div className="p-5 md:p-16 space-y-4 md:space-y-16">
@@ -258,79 +204,69 @@ function Home() {
             <H4>What is an <em>NFeth?</em></H4>
             <p>
               We all know ETH IS MONEY 💸... But now {" "}
-            <span className="rainbow bg-clip-text text-transparent font-bold">
+            <span className="rainbow bg-clip-text text-transparent font-strong">
               ETH IS ART
             </span>{" "} 🎨 as well! 
-            </p>
-            <p>
-               ETH IS ART allows you to wrap 1 ETH as a randomly generated fully onchain artwork - an NFeth. The NFeth can always be redeemed back to 1 ETH, but the artwork will in return be destroyed.
+            <br />
+            <br />
+            ETH IS ART allows you to wrap 1 ETH into a randomly generated, fully onchain, artwork - a Non-fungible ETH. In short, you can make your Ether <strong>RARE and FANCY!</strong> <br /> <br />
+The NFeth can <strong><u>always</u></strong> be redeemed back to 1 ETH, but the artwork will in return be destroyed. Kind of like a digital piggy bank - to redeem the ETH you must break open the NFeth.
+
             </p>
             </div>
           <div>
-            <H4>Why wrap ETH as an NFeth?</H4>
+            <H4>Why wrap ETH into an NFeth?</H4>
             <p>
-              We all know ETH IS MONEY. But now ETH IS ART as well! 
-              Bring your shiny ETH into the metaverse and HODL in style, or use it as a special way to gift ETH.
+            Just like you can wrap ETH into WETH to give it the superpowers of an ERC20 token, you can now wrap your ETH into an <u>ERC721 token</u> - aka an NFT. This means being able to display your beautiful, and now rare, ETH as art in galleries or in the metaverse. Or integrate it into your next project. What you do with it is up to you.
             </p>
           </div>
           <div>
             <H4>
-              What do you mean by <em>fully on-chain</em>?
+            Limited Supply, Equally Rare and Fully Onchain?
             </H4>
             <p>
-              Everything, even the image data, is stored directly on the
-              Ethereum blockchain. Most NFTs hold only the metadata and
-              ownership information and then links to an external service for
-              the actual asset. This is mostly fine, however the service storing
-              that asset may disappear or the data go corrupt. Probably not, but
-              maybe. Even if this website disappears at some point, Cranes will
-              be around as long as the blockchain itself.
+            To keep the NFeths <span className="rainbow bg-clip-text text-transparent font-bold">
+              rare and special
+            </span>{" "} there is a max supply of 10,000 NFeths. All NFeths are randomly generated from the same SVG template, seeded with random colors based on the time it was minted, and the destination address. There are no special traits, so each NFeth is equally rare and special. The SVG data is stored fully onchain, so your NFeth will live on forever.
             </p>
           </div>
           <div>
-            <H4>How are the Cranes generated?</H4>
+            <H4>Ultra Sound Art</H4>
             <p>
-              The Cranes are generated from the same SVG template, seeded with
-              random colors. It isn't true randomness, as we still expect the
-              same crane to have the same colors every time we view it. So the
-              colors are <em>*randomly*</em> chosen from a few seed values, that
-              make it always return the same colors for the same seed, which is
-              mint year + token id + destination address.
+            The idea behind NFeth is to experiment with value backed NFTs that will gradually also decrease in supply. Because some NFeth owners might choose to redeem their tokens for the underlying 1 ETH, there should be less and less NFeths in circulation. ETH is Ultra Sound Art. 🦇🔊🎨
+            </p>
+          </div>
+          <div>  
+      
+            <H4>Funding a public good</H4>
+            <p>
+            To avoid griefing from someone using flash loans to generate a lot of NFeths, only to burn them again to reduce supply, there is a minting fee of 0.02 ETH. Half of the fee (0.01 ETH) goes to the creator (spoiler alert it‘s me), and the other half (0.01 ETH) goes to a public good. I have chosen <A href="https://etherscan.io/">Etherscan</A> as the recipient of the other half of the fee, as they provide critical infrastructure for the entire Ethereum Community. You can therefore feel very good about minting an NFeth. Give yourself a pat on the back.
             </p>
           </div>
           <div>
-            <H4>How do I buy one?</H4>
+            <H4>Inspired by Cranes</H4>
             <p>
-              First you need an Ethereum wallet. I recommend{" "}
-              <A href="https://rainbow.me">🌈&nbsp;Rainbow</A>.{" "}
-              <A href="https://metamask.io/">Metamask</A> is fine too. Then you
-              buy some ETH. Then you use this website as long as supplies last.
+            The contract code and frontend are inspired by <A href="http://cranes.supply/">Cranes</A> - another great project that you should definitely check out.
             </p>
           </div>
           <div>
-            <H4>How are Cranes licensed?</H4>
+            <H4>Licensing</H4>
             <p>
-              Cranes, the contract code, IP and resulting assets are all{" "}
-              <strong className="font-bold">Public Domain</strong>. Feel free to
-              build upon the project in any way you'd like.
+            ETH IS ART 🎨 is public domain and can be used in any way you wish.
             </p>
           </div>
         </div>
       </div>
-      <div className="text-sm p-5 md:p-16 leading-normal mb-8">
-        <A href="https://etherscan.io/address/0xc3f5e8a98b3d97f19938e4673fd97c7cfd155577">
+      <div className="text-sm p-5 md:p-16 leading-normal mb-8 text-center">
+        <A href="#">
           Etherscan
         </A>{" "}
         &bull;{" "}
-        <A href="https://opensea.io/collection/cranes-for-special-wallets">
+        <A href="#">
           OpenSea
         </A>{" "}
-        &bull; <A href="https://github.com/mikker/cranes">GitHub</A> &bull;{" "}
-        <A href="https://twitter.com/mikker">Twitter</A> &bull; There's no
-        Discord
-        <br />
-        Specials: <A href="https://etherscan.io/address/0x71ede9894aeb2ff2da92d2ca4865d37d1ab77a1b">Etherscan</A> &bull;{" "}
-        <A href="https://opensea.io/collection/cranes-for-special-editions">OpenSea</A>
+        &bull; <A href="">GitHub</A> &bull;{" "}
+        <A href="#">Twitter</A>
       </div>
 
       <div className="fixed inset-x-0 bottom-0 bg-white dark:bg-gray-800 shadow-2xl border-t-2 border-gray-100 py-3 px-5">

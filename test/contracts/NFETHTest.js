@@ -28,7 +28,7 @@ describe("NFETH", function () {
   it("has a grand total", async function () {
     expect(await contract.totalSupply()).to.equal(0);
     const contractAsWallet = await contract.connect(wallet1);
-    await contractAsWallet.craftForSelf({
+    await contractAsWallet.mintForSelf({
       value: ethers.utils.parseEther("0.0012"),
     });
     expect(await contract.totalSupply()).to.equal(1);
@@ -38,7 +38,7 @@ describe("NFETH", function () {
 
   it("can be crafted by anyone for themselves", async function () {
     const contractAsWallet = await contract.connect(wallet1);
-    await contractAsWallet.craftForSelf({
+    await contractAsWallet.mintForSelf({
       value: ethers.utils.parseEther("0.0012"),
     });
     expect(await contract.balanceOf(owner.address)).to.equal(0);
@@ -48,13 +48,13 @@ describe("NFETH", function () {
   it("throws when price is too low", async function () {
     const contractAsWallet = await contract.connect(wallet1);
     expect(
-      contractAsWallet.craftForSelf({
+      contractAsWallet.mintForSelf({
         value: ethers.utils.parseEther("0.0002"),
       })
     ).to.be.revertedWith("PRICE_NOT_MET");
 
     await expect(
-      contractAsWallet.craftForFriend(wallet2.address, {
+      contractAsWallet.mintForFriend(wallet2.address, {
         value: ethers.utils.parseEther("0.0002"),
       })
     ).to.be.revertedWith("PRICE_NOT_MET");
@@ -62,7 +62,7 @@ describe("NFETH", function () {
 
   it("can be crafted by anyone for someone else", async function () {
     const contractAsWallet = await contract.connect(wallet1);
-    const token = await contractAsWallet.craftForFriend(wallet2.address, {
+    const token = await contractAsWallet.mintForFriend(wallet2.address, {
       value: ethers.utils.parseEther("0.0012"),
     });
     expect(await contract.balanceOf(owner.address)).to.equal(0);
@@ -77,7 +77,7 @@ describe("NFETH", function () {
     const preDonationBalance = await ethers.provider.getBalance(contractAsWallet.donationRecipient());
     const price = ethers.utils.parseEther("0.0001");
  
-    await contractAsWallet.craftForSelf({
+    await contractAsWallet.mintForSelf({
       value: ethers.utils.parseEther("0.0012"),
     });  
     
@@ -89,7 +89,7 @@ describe("NFETH", function () {
   it("redeems for ETH and only once", async function () {
     const contractAsWallet = await contract.connect(wallet1);
     expect(await contract.balanceOf(wallet1.address)).to.equal(0)
-    await contractAsWallet.craftForSelf({
+    await contractAsWallet.mintForSelf({
       value: ethers.utils.parseEther("0.0012"),
     });
     expect(await contract.balanceOf(wallet1.address)).to.equal(1)
@@ -102,7 +102,7 @@ describe("NFETH", function () {
   it("token ids increment even after burn", async function () {
     const contractAsWallet = await contract.connect(wallet1);
     expect(await contract.balanceOf(wallet1.address)).to.equal(0)
-    await contractAsWallet.craftForSelf({
+    await contractAsWallet.mintForSelf({
       value: ethers.utils.parseEther("0.0012"),
     });
     expect(await contract.balanceOf(wallet1.address)).to.equal(1)
@@ -110,33 +110,42 @@ describe("NFETH", function () {
     const tokenId2 = 2;  
     await contractAsWallet.redeemForEth(tokenId1);
     expect(await contract.balanceOf(wallet1.address)).to.equal(0);
-    await contractAsWallet.craftForSelf({
+    await contractAsWallet.mintForSelf({
       value: ethers.utils.parseEther("0.0012"),
     });
     expect(await contractAsWallet.redeemForEth(tokenId2));
+  });
+
+  it("token counter works", async function () {
+    const contractAsWallet = await contract.connect(wallet1);
+    expect(await contract.getSupply()).to.equal(0);
+    await contractAsWallet.mintForSelf({
+      value: ethers.utils.parseEther("0.0012"),
+    });
+    expect(await contract.getSupply()).to.equal(1);
   });
 
   // To test this set max supply in contract to 5 and uncomment.
   // it("can only craft up to max", async function () {
   //   const contractAsWallet = await contract.connect(wallet1);
   //   expect(await contract.balanceOf(wallet1.address)).to.equal(0)
-  //   await contractAsWallet.craftForSelf({
+  //   await contractAsWallet.mintForSelf({
   //     value: ethers.utils.parseEther("0.0012"),
   //   });
   //   expect(await contract.balanceOf(wallet1.address)).to.equal(1)
-  //   await contractAsWallet.craftForSelf({
+  //   await contractAsWallet.mintForSelf({
   //     value: ethers.utils.parseEther("0.0012"),
   //   });
   //   expect(await contract.balanceOf(wallet1.address)).to.equal(2)
-  //   await contractAsWallet.craftForSelf({
+  //   await contractAsWallet.mintForSelf({
   //     value: ethers.utils.parseEther("0.0012"),
   //   });
   //   expect(await contract.balanceOf(wallet1.address)).to.equal(3)
-  //   await contractAsWallet.craftForSelf({
+  //   await contractAsWallet.mintForSelf({
   //     value: ethers.utils.parseEther("0.0012"),
   //   });
   //   expect(await contract.balanceOf(wallet1.address)).to.equal(4)
-  //   expect(contractAsWallet.craftForSelf({
+  //   expect(contractAsWallet.mintForSelf({
   //     value: ethers.utils.parseEther("0.0012"),
   //   })).to.be.revertedWith("MAX_REACHED");
 
@@ -147,7 +156,7 @@ describe("NFETH", function () {
     const contractAsWallet = await contract.connect(wallet1);
     const tokenId = 1;  
     expect(await contract.balanceOf(wallet1.address)).to.equal(0)
-    await contractAsWallet.craftForFriend(wallet2.address, {
+    await contractAsWallet.mintForFriend(wallet2.address, {
       value: ethers.utils.parseEther("0.0012"),
     });
     expect(await contract.balanceOf(wallet1.address)).to.equal(0)
@@ -159,7 +168,7 @@ describe("NFETH", function () {
   //   const contractAsWallet = await contract.connect(wallet1);
   //   const tokenId = 1;
   //   expect(await contract.balanceOf(wallet1.address)).to.equal(0)
-  //   await contractAsWallet.craftForSelf({
+  //   await contractAsWallet.mintForSelf({
   //     value: ethers.utils.parseEther("0.0012"),
   //   });
   //   await contractAsWallet.approve(wallet2.address, tokenId);
@@ -171,17 +180,17 @@ describe("NFETH", function () {
 
   it("has a tokenUri", async function () {
     let i = 0;
-    const amount = 20;
+    const amount = 1;
 
-    while(i<=20){
+    while(i<=amount){
     
     const contractAsWallet = await contract.connect(wallet1);
 
-    const token1 = await contractAsWallet.craftForFriend(wallet2.address, {
+    const token1 = await contractAsWallet.mintForFriend(wallet2.address, {
       value: ethers.utils.parseEther("0.0012"),
     });
     
-    const token = await contractAsWallet.craftForFriend(wallet2.address, {
+    const token = await contractAsWallet.mintForFriend(wallet2.address, {
       value: ethers.utils.parseEther("0.0012"),
     });
     

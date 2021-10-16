@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto");
+@import url("https://fonts.googleapis.com/css?family=Ubuntu");
 
 @layer components {
   .btn {
@@ -24,7 +24,7 @@
 
 @layer utilities {
   .azaret {
-    font-family: "Roboto", monospace;
+    font-family: "Ubuntu";
   }
 
   .rainbow {
@@ -52,7 +52,7 @@ html,
 }
 
 body {
-  @apply bg-white dark:bg-gray-900 text-black dark:text-white;
+  @apply bg-white dark:bg-black text-black dark:text-white;
 }
 
 strong {
