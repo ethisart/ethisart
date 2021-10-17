@@ -9,7 +9,7 @@ import { SelfBuildingSquareSpinner } from "react-epic-spinners";
 import { Link } from "react-feather";
 import Layout from "../components/Layout";
 import Web3Provider from "../components/Web3Provider";
-import { address as nfethAddress, abi as nfethABI } from "../src/nfteth";
+import { address as NFethAddress, abi as NFethABI } from "../src/nfteth";
 
 const injected = new InjectedConnector({ supportedChainIds: [1, 3, 4, 5, 42] });
 const wcConnector = new WalletConnectConnector({
@@ -42,7 +42,7 @@ function Home() {
 
     // library.eth.handleRevert = true // fails with TypeError: err.data.substring is not a function
 
-    const contract = new library.eth.Contract(nfethABI, nfethAddress);
+    const contract = new library.eth.Contract(NFethABI, NFethAddress);
     setContract(contract);
     
     contract.methods
@@ -113,7 +113,7 @@ function Home() {
           <h1 className="md:text-8xl font-black text-center">ETH IS ART 🎨</h1>
           <div className="h-8"></div>
           <h2 className="tracking-tight md:text-3xl max-w-5xl">
-            Wrap 1 ETH into an NFeth - A randomly generated and fully onchain ETH artwork, always redeemable for 1 ETH. 
+            Wrap 1 ETH into an NF-ETH - A randomly generated and fully onchain ETH artwork, always redeemable for 1 ETH. 
           </h2>
           
         </header>
@@ -142,21 +142,21 @@ function Home() {
                     <strong>Wrapping cost is Ξ0.02</strong>{" "}
                   </p>
                   <p>
-                    All NFeths are randomly generated and equally rare. The result will be different for each NFeth
+                    All NF-ETHs are randomly generated and equally rare. The result will be different for each NF-ETH
                     depending on the block time, token number and destination address.
                   </p>
                   <p>
-                    {totalMinted}/10,000 NFeths have been minted.
+                    {totalMinted}/10,000 NF-ETHs have been minted.
                   </p>
 
                   <progress className="w-full" max={10000} value={totalMinted} />
                   
                   <div className="flex flex-col">
                   <p>
-                  <strong>Redeem NFeth for ETH</strong>
+                  <strong>Redeem NF-ETH for ETH</strong>
                   </p>
                   <p>
-                    Input your NFeth token id to redeem it for ETH. (Warning: This will destroy the NFeth forever)
+                    Input your NF-ETH token id to redeem it for ETH. (Warning: This will destroy the NF-ETH forever)
                   </p>
                   <input
                     ref={redeemField}
@@ -173,7 +173,7 @@ function Home() {
                     className="rounded-2xl rounded-t-none"
                     onClick={redeemForEth}
                   >
-                    Redeem NFeth for ETH
+                    Redeem NF-ETH for ETH
                   </MintButton>
                 </div>
                 </div>
@@ -202,7 +202,7 @@ function Home() {
         <div className="space-y-4 md:space-y-8 font-light">
           <h2 className="md:text-8xl md:font-thin">Info</h2>
           <div>
-            <H4>What is an <em>NFeth?</em></H4>
+            <H4>What is an <em>NF-ETH?</em></H4>
             <p>
               We all know ETH IS MONEY 💸... But now {" "}
             <span className="rainbow bg-clip-text text-transparent font-strong">
@@ -213,24 +213,24 @@ function Home() {
             ETH IS ART allows you to wrap 1 ETH into a randomly generated, fully onchain, ETH artwork - a Non-fungible ETH. In short, you can make your Ether <span className="font-bold rainbow bg-clip-text text-transparent">
               rare and special
             </span>{""}! <br /> <br />
-The NFeth can <strong><em>always</em></strong> be redeemed back to 1 ETH, but the artwork will in return be destroyed. Kind of like a digital piggy bank - to redeem the ETH you must break open the NFeth.
+The NF-ETH can <strong><em>always</em></strong> be redeemed back to 1 ETH, but the artwork will in return be destroyed. Kind of like a digital piggy bank - to redeem the ETH you must break open the NF-ETH.
 
             </p>
             </div>
             <div>
-            <H4>How do I wrap ETH into an NFeth?</H4>
+            <H4>How do I wrap ETH into an NF-ETH?</H4>
             <p>
-              By connecting with Ethereum wallet above, you will be able to mint an NFeth, using the "Wrap 1 ETH" button. You need to have at least 1 ETH + 0.02 ETH to cover wrapping fee + gas cost to wrap your ETH. After wrapping, your NFeth should show up in your account instantly.
+              By connecting with Ethereum wallet above, you will be able to mint an NF-ETH, using the "Wrap 1 ETH" button. You need to have at least 1 ETH + 0.02 ETH to cover wrapping fee + gas cost to wrap your ETH. After wrapping, your NF-ETH should show up in your account instantly.
             </p>
           </div>
           <div>
-            <H4>How do I redeem my NFeth for ETH?</H4>
+            <H4>How do I redeem my NF-ETH for ETH?</H4>
             <p>
-              If you wish to redeem your NFeth for 1 ETH, you must connect with your Ethereum wallet above, and input the Token ID of your NFeth, and click "Redeem NFeth for ETH". You can find your Token ID by navigating to your account on Etherscan, or by viewing it on OpenSea.
+              If you wish to redeem your NF-ETH for 1 ETH, you must connect with your Ethereum wallet above, and input the Token ID of your NF-ETH, and click "Redeem NF-ETH for ETH". You can find your Token ID by navigating to your account on Etherscan, or by viewing it on OpenSea.
             </p>
           </div>
           <div>
-            <H4>Why wrap ETH into an NFeth?</H4>
+            <H4>Why wrap ETH into an NF-ETH?</H4>
             <p>
             Just like you can wrap ETH into WETH to give it the superpowers of an ERC20 token, you can now wrap your ETH into an <strong><em>ERC721 token</em></strong> - aka an NFT. Some have a personal attachment to their ETH, and now you will be able to display your beautiful, and now rare, ETH as art in galleries or bring it with you into the metaverse. Or integrate it into your next project. What you do with it is up to you.
             </p>
@@ -240,22 +240,22 @@ The NFeth can <strong><em>always</em></strong> be redeemed back to 1 ETH, but th
             Limited supply, equally rare and fully onchain
             </H4>
             <p>
-            To keep the NFeths <span className="font-bold rainbow bg-clip-text text-transparent">
+            To keep the NF-ETHs <span className="font-bold rainbow bg-clip-text text-transparent">
               rare and special
-            </span>{" "} there is a max supply of 10,000 NFeths. All NFeths are randomly generated from the same SVG template, seeded with random colors based on the time it was minted, and the destination address. There are no special traits, so each NFeth is equally rare and special. The SVG data is stored fully onchain, so your NFeth will live on forever.
+            </span>{" "} there is a max supply of 10,000 NF-ETHs. All NF-ETHs are randomly generated from the same SVG template, seeded with random colors based on the time it was minted, and the destination address. There are no special traits, so each NF-ETH is equally rare and special. The SVG data is stored fully onchain, so your NF-ETH will live on forever.
             </p>
           </div>
           <div>
             <H4>Ultra Sound Art</H4>
             <p>
-            The idea behind NFeth is to experiment with value backed NFTs that will gradually also decrease in supply. Because some NFeth owners might choose to redeem their tokens for the underlying 1 ETH, the amount of NFeths in existence should decrease overtime. NFeth is Ultra Sound Art. 🦇🔊🎨
+            The idea behind NF-ETH is to experiment with value backed NFTs that will gradually also decrease in supply. Because some NF-ETH owners might choose to redeem their tokens for the underlying 1 ETH, the amount of NF-ETHs in existence should decrease overtime. NF-ETH is Ultra Sound Art. 🦇🔊🎨
             </p>
           </div>
           <div>  
       
             <H4>Minting fee funding a public good</H4>
             <p>
-            To avoid griefing from someone using flash loans to generate a lot of NFeths, only to burn them again to reduce supply, there is a minting fee of 0.02 ETH. Half of the fee (0.01 ETH) goes to the creator (spoiler alert it‘s me), and the other half (0.01 ETH) goes to a public good. I have chosen <A href="https://etherscan.io/">Etherscan</A> as the recipient of the other half of the fee, as they provide critical infrastructure for the entire Ethereum Community (<A href="https://etherscan.io/address/0x71c7656ec7ab88b098defb751b7401b5f6d8976f">see donation address here</A>). You can therefore feel very good about minting an NFeth. Give yourself a pat on the back.
+            To avoid griefing from someone using flash loans to generate a lot of NF-ETHs, only to burn them again to reduce supply, there is a minting fee of 0.02 ETH. Half of the fee (0.01 ETH) goes to the creator (spoiler alert it‘s me), and the other half (0.01 ETH) goes to a public good. I have chosen <A href="https://etherscan.io/">Etherscan</A> (<A href="https://etherscan.io/address/0x71c7656ec7ab88b098defb751b7401b5f6d8976f">see donation address here</A>) as the recipient of the other half of the fee, as they provide critical infrastructure for the entire Ethereum Community. You can therefore feel very good about minting an NF-ETH. Give yourself a pat on the back.
             </p>
           </div>
           <div>
@@ -267,13 +267,13 @@ The NFeth can <strong><em>always</em></strong> be redeemed back to 1 ETH, but th
           <div>
             <H4>Disclaimer</H4>
             <p>
-            ETH IS ART 🎨 is not audited, but the contract code is very simple, and has been externally reviewed, tested and utilizes mostly standard contracts by OpenZeppelin. There are no admin functions and the contract cannot be upgraded, so what you see is what you get. The code is fully <A href="https://github.com/ethisart/ethisart/blob/main/contracts/NFETH.sol">open source for your verification</A>. <A href="https://github.com/ethisart/ethisart#disclaimer">See this disclaimer</A> and use at your own discretion.
+            ETH IS ART 🎨 is not audited, but the contract code is very simple, and has been externally reviewed, tested and utilizes mostly standard contracts by OpenZeppelin. There are no admin functions and the contract cannot be upgraded, so what you see is what you get. The code is fully <A href="https://github.com/ethisart/ethisart/blob/main/contracts/NF-ETH.sol">open source for your verification</A>. <A href="https://github.com/ethisart/ethisart#disclaimer">See this disclaimer</A> and use at your own discretion.
             </p>
           </div>
           <div>
             <H4>Licensing</H4>
             <p>
-            The ETH IS ART 🎨 website, contract code and NFeth assets are all <strong>Public Domain</strong> and can be used in any way you wish.
+            The ETH IS ART 🎨 website, contract code and NF-ETH assets are all <strong>Public Domain</strong> and can be used in any way you wish.
             </p>
           </div>
         </div>
@@ -287,6 +287,8 @@ The NFeth can <strong><em>always</em></strong> be redeemed back to 1 ETH, but th
           OpenSea
         </A>{" "}
         &bull;{" "}<A href="https://twitter.com/ETH_IS_ART">Twitter</A>{" "}
+        &bull;{" "}
+        <A href="https://discord.gg/VuB5PFtmqx">Discord</A>{" "}
         &bull;{" "}
         <A href="https://github.com/ethisart/ethisart/">GitHub</A>{" "}
         &bull;{" "}
