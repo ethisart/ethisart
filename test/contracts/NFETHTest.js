@@ -9,6 +9,8 @@ describe("NFETH", function () {
   let owner;
   let wallet1;
   let wallet2;
+  const wrapAmount = "1.02";
+  const halfPrice = "0.01";
   
   beforeEach(async function () {
     const ColorsContract = await hre.ethers.getContractFactory("Colors");
@@ -29,7 +31,7 @@ describe("NFETH", function () {
     expect(await contract.totalSupply()).to.equal(0);
     const contractAsWallet = await contract.connect(wallet1);
     await contractAsWallet.mintForSelf({
-      value: ethers.utils.parseEther("0.0012"),
+      value: ethers.utils.parseEther(wrapAmount),
     });
     expect(await contract.totalSupply()).to.equal(1);
   });
@@ -39,7 +41,7 @@ describe("NFETH", function () {
   it("can be crafted by anyone for themselves", async function () {
     const contractAsWallet = await contract.connect(wallet1);
     await contractAsWallet.mintForSelf({
-      value: ethers.utils.parseEther("0.0012"),
+      value: ethers.utils.parseEther(wrapAmount),
     });
     expect(await contract.balanceOf(owner.address)).to.equal(0);
     expect(await contract.balanceOf(wallet1.address)).to.equal(1);
@@ -49,7 +51,7 @@ describe("NFETH", function () {
     const contractAsWallet = await contract.connect(wallet1);
     expect(
       contractAsWallet.mintForSelf({
-        value: ethers.utils.parseEther("0.0002"),
+        value: ethers.utils.parseEther("0.0001"),
       })
     ).to.be.revertedWith("PRICE_NOT_MET");
 
@@ -75,10 +77,10 @@ describe("NFETH", function () {
     const contractAsWallet = await contract.connect(owner);
     const preOwnerBalance = await ethers.provider.getBalance(contractAsWallet.ownerRecipient());
     const preDonationBalance = await ethers.provider.getBalance(contractAsWallet.donationRecipient());
-    const price = ethers.utils.parseEther("0.0001");
+    const price = ethers.utils.parseEther(halfPrice);
  
     await contractAsWallet.mintForSelf({
-      value: ethers.utils.parseEther("0.0012"),
+      value: ethers.utils.parseEther(wrapAmount),
     });  
     
     expect(await ethers.provider.getBalance(contractAsWallet.ownerRecipient())).to.equal(preOwnerBalance.add(price));
@@ -90,7 +92,7 @@ describe("NFETH", function () {
     const contractAsWallet = await contract.connect(wallet1);
     expect(await contract.balanceOf(wallet1.address)).to.equal(0)
     await contractAsWallet.mintForSelf({
-      value: ethers.utils.parseEther("0.0012"),
+      value: ethers.utils.parseEther(wrapAmount),
     });
     expect(await contract.balanceOf(wallet1.address)).to.equal(1)
     const tokenId = 1;  
@@ -103,7 +105,7 @@ describe("NFETH", function () {
     const contractAsWallet = await contract.connect(wallet1);
     expect(await contract.balanceOf(wallet1.address)).to.equal(0)
     await contractAsWallet.mintForSelf({
-      value: ethers.utils.parseEther("0.0012"),
+      value: ethers.utils.parseEther(wrapAmount),
     });
     expect(await contract.balanceOf(wallet1.address)).to.equal(1)
     const tokenId1 = 1;
@@ -111,7 +113,7 @@ describe("NFETH", function () {
     await contractAsWallet.redeemForEth(tokenId1);
     expect(await contract.balanceOf(wallet1.address)).to.equal(0);
     await contractAsWallet.mintForSelf({
-      value: ethers.utils.parseEther("0.0012"),
+      value: ethers.utils.parseEther(wrapAmount),
     });
     expect(await contractAsWallet.redeemForEth(tokenId2));
   });
@@ -120,7 +122,7 @@ describe("NFETH", function () {
     const contractAsWallet = await contract.connect(wallet1);
     expect(await contract.getSupply()).to.equal(0);
     await contractAsWallet.mintForSelf({
-      value: ethers.utils.parseEther("0.0012"),
+      value: ethers.utils.parseEther(wrapAmount),
     });
     expect(await contract.getSupply()).to.equal(1);
   });
@@ -157,25 +159,28 @@ describe("NFETH", function () {
     const contractAsWallet2 = await contract.connect(wallet2);
     const tokenId = 1;  
     expect(await contract.balanceOf(wallet1.address)).to.equal(0)
-    await contractAsWallet.mintForSelf({value: ethers.utils.parseEther("0.0012"),});
+    await contractAsWallet.mintForSelf({value: ethers.utils.parseEther(wrapAmount),});
     expect(await contract.balanceOf(wallet1.address)).to.equal(1)
     expect(await contract.balanceOf(wallet2.address)).to.equal(0)
     expect(contractAsWallet2.redeemForEth(tokenId)).to.be.revertedWith("NOT OWNER");
   });
 
-  // it("cannot redeem nfts of other after transfer", async function () {
-  //   const contractAsWallet = await contract.connect(wallet1);
-  //   const tokenId = 1;
-  //   expect(await contract.balanceOf(wallet1.address)).to.equal(0)
-  //   await contractAsWallet.mintForSelf({
-  //     value: ethers.utils.parseEther("0.0012"),
-  //   });
-  //   await contractAsWallet.approve(wallet2.address, tokenId);
-  //   await contractAsWallet.safeTransferFrom(wallet1.address, wallet2.address, tokenId);
-  //   expect(await contract.balanceOf(wallet1.address)).to.equal(0)
-  //   expect(await contract.balanceOf(wallet2.address)).to.equal(1) 
-  //   expect(contractAsWallet.redeemForEth(tokenId)).to.be.revertedWith("NOT OWNER");
-  // });
+  it("it can redeem nfts that has been transferred", async function () {
+    const contractAsWallet1 = await contract.connect(wallet1);
+    const contractAsWallet2 = await contract.connect(wallet2);
+    const tokenId = 1;
+    expect(await contract.balanceOf(wallet1.address)).to.equal(0)
+    await contractAsWallet1.mintForSelf({
+      value: ethers.utils.parseEther(wrapAmount),
+    });
+    //await contractAsWallet1.approve(wallet2.address, tokenId);
+    await contractAsWallet1.transferFrom(wallet1.address, wallet2.address, tokenId);
+    expect(await contract.balanceOf(wallet1.address)).to.equal(0)
+    expect(await contract.balanceOf(wallet2.address)).to.equal(1) 
+    expect(contractAsWallet1.redeemForEth(tokenId)).to.be.revertedWith("NOT OWNER");
+    await contractAsWallet2.redeemForEth(tokenId);
+    expect(await contract.balanceOf(wallet2.address)).to.equal(0);
+  });
 
   it("has a tokenUri", async function () {
     let i = 0;
@@ -185,7 +190,7 @@ describe("NFETH", function () {
     
     const contractAsWallet = await contract.connect(wallet1);
 
-    const token = await contractAsWallet.mintForSelf({value: ethers.utils.parseEther("0.0012"),});
+    const token = await contractAsWallet.mintForSelf({value: ethers.utils.parseEther(wrapAmount),});
     
     const uri = await contract.tokenURI(i);
     expect(uri).to.match(/^data:/);

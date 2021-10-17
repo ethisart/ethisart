@@ -16,11 +16,11 @@ contract NFETH is ERC721, ERC721Enumerable, Ownable {
 
   uint256 public constant MAX_ETHERPIECES = 10000;
   string public constant DESCRIPTION = "ETH IS ART allows you to wrap 1 ETH into a randomly generated and fully onchain ETH artwork - an NFeth";
-  uint256 public wrapAmount = 0.001 ether; //TODO CHANGE
-  uint256 public price = 0.0002 ether; //TODO CHANGE
-  uint256 public halfPrice = 0.0001 ether; //TODO CHANGE
-  address public ownerRecipient = 0x62badb7E5363018166E60e62125d771cb27EAB06; //TODO CHANGE
-  address public donationRecipient = 0x995047b7DD64e233Ea837C27d9e0450c6dc9Fe29; //TODO CHANGE
+  uint256 public wrapAmount = 1.00 ether;
+  uint256 public price = 0.02 ether;
+  uint256 public halfPrice = 0.01 ether;
+  address public ownerRecipient = 0xb397e4b169EF902C9e84065620f5bC9c53F2ee35;
+  address public donationRecipient = 0x71C7656EC7ab88b098defB751B7401B5f6d8976F; //Etherscan address
   
 
   Counters.Counter private _tokenIdCounter;
