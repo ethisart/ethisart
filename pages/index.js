@@ -266,9 +266,9 @@ The NF-ETH can <strong><em>always</em></strong> be redeemed back to 1 ETH, but t
             </p>
           </div>
           <div>
-            <H4>Disclaimer</H4>
+            <H4>Security</H4>
             <p>
-            ETH IS ART 🎨 is not audited, but the contract code is very simple, and has been externally reviewed, tested and utilizes mostly standard contracts by OpenZeppelin. There are no admin functions and the contract cannot be upgraded, so what you see is what you get. The code is fully <A href="https://github.com/ethisart/ethisart/blob/main/contracts/NF-ETH.sol">open source for your verification</A>. <A href="https://github.com/ethisart/ethisart#disclaimer">See this disclaimer</A> and use at your own discretion.
+            The contract code is very simple and utilizes mostly standard secure contracts by OpenZeppelin. The code has been externally reviewed, and thoroughly tested. There are no admin functions and the contract cannot be upgraded, so what you see is what you get. The code is fully <A href="https://github.com/ethisart/ethisart/blob/main/contracts/NFETH.sol">open source for your verification</A>. <A href="https://github.com/ethisart/ethisart#disclaimer">See this disclaimer</A> and use at your own discretion.
             </p>
           </div>
           <div>
@@ -289,8 +289,7 @@ The NF-ETH can <strong><em>always</em></strong> be redeemed back to 1 ETH, but t
         </A>{" "}
         &bull;{" "}<A href="https://twitter.com/ETH_IS_ART">Twitter</A>{" "}
         &bull;{" "}
-        <A href="https://discord.gg/VuB5PFtmqx">Discord</A>{" "}
-        &bull;{" "}
+        
         <A href="https://github.com/ethisart/ethisart/">GitHub</A>{" "}
         &bull;{" "}
         <A href="https://github.com/ethisart/ethisart#disclaimer">Disclaimer</A>

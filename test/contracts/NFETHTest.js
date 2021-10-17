@@ -75,7 +75,7 @@ describe("NFETH", function () {
   it("donator and owner receives revenue", async function () {
     //console.log(ethers.provider.getBalance(contractAsWallet.ownerRecipient()));
     const contractAsWallet = await contract.connect(owner);
-    const preOwnerBalance = await ethers.provider.getBalance(contractAsWallet.ownerRecipient());
+    const preCreatorBalance = await ethers.provider.getBalance(contractAsWallet.creatorRecipient());
     const preDonationBalance = await ethers.provider.getBalance(contractAsWallet.donationRecipient());
     const price = ethers.utils.parseEther(halfPrice);
  
@@ -83,7 +83,7 @@ describe("NFETH", function () {
       value: ethers.utils.parseEther(wrapAmount),
     });  
     
-    expect(await ethers.provider.getBalance(contractAsWallet.ownerRecipient())).to.equal(preOwnerBalance.add(price));
+    expect(await ethers.provider.getBalance(contractAsWallet.creatorRecipient())).to.equal(preCreatorBalance.add(price));
     expect(await ethers.provider.getBalance(contractAsWallet.donationRecipient())).to.equal(preDonationBalance.add(price));
 
   });

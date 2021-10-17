@@ -19,7 +19,7 @@ contract NFETH is ERC721, ERC721Enumerable, Ownable {
   uint256 public wrapAmount = 0.001 ether; //TODO CHANGE
   uint256 public price = 0.0002 ether; //TODO CHANGE
   uint256 public halfPrice = 0.0001 ether; //TODO CHANGE
-  address public ownerRecipient = 0x62badb7E5363018166E60e62125d771cb27EAB06; //TODO CHANGE
+  address public creatorRecipient = 0x62badb7E5363018166E60e62125d771cb27EAB06; //TODO CHANGE
   address public donationRecipient = 0x995047b7DD64e233Ea837C27d9e0450c6dc9Fe29; //TODO CHANGE
   
 
@@ -45,9 +45,11 @@ contract NFETH is ERC721, ERC721Enumerable, Ownable {
 
   function mintForSelf() public payable virtual {
     require(msg.value == (wrapAmount+price), "PRICE_NOT_MET");
-    require(payable(ownerRecipient).send(halfPrice));
-    require(payable(donationRecipient).send(halfPrice));
     _mint(msg.sender);
+    (bool paidCreator, ) = creatorRecipient.call{value: halfPrice}("");
+    (bool donated, ) = donationRecipient.call{value: halfPrice}("");
+    require(paidCreator, "Failed to pay creator");
+    require(donated, "Failed to donate");
   }
 
   function redeemForEth(uint256 tokenId) public {
