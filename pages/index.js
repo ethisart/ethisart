@@ -15,6 +15,7 @@ const injected = new InjectedConnector({ supportedChainIds: [1, 3, 4, 5, 42] });
 const wcConnector = new WalletConnectConnector({
   infuraId: "cddde80366fc42c2ac9202c6a0f9850b",
 });
+const wrapAmount = "0.0012";
 
 export default function WrappedHome() {
   return (
@@ -70,7 +71,7 @@ function Home() {
     contract.methods
       .mintForSelf()
       .send(
-        { from: account, value: utils.toWei("1.02", "ether") },
+        { from: account, value: utils.toWei(wrapAmount, "ether") },
         (err, hsh) => {
           if (err) return handleError(err);
           setTransactionHash(hsh);
