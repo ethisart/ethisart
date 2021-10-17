@@ -9,7 +9,7 @@ describe("NFETH", function () {
   let owner;
   let wallet1;
   let wallet2;
-  const wrapAmount = "0.001";
+  const wrapAmount = "0.0012";
   const halfPrice = "0.0001";
   
   beforeEach(async function () {
@@ -23,7 +23,7 @@ describe("NFETH", function () {
   });
 
   it("has name and symbol", async function () {
-    expect(await contract.name()).to.equal("NFETH");
+    expect(await contract.name()).to.equal("ETH IS ART");
     expect(await contract.symbol()).to.equal("NFETH");
   });
 
