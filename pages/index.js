@@ -70,7 +70,7 @@ function Home() {
     contract.methods
       .mintForSelf()
       .send(
-        { from: account, value: utils.toWei("0.0012", "ether") }, //TODO SET TO 1.02 ETH
+        { from: account, value: utils.toWei("1.02", "ether") },
         (err, hsh) => {
           if (err) return handleError(err);
           setTransactionHash(hsh);
