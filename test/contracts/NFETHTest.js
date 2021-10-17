@@ -9,8 +9,8 @@ describe("NFETH", function () {
   let owner;
   let wallet1;
   let wallet2;
-  const wrapAmount = "0.00012";
-  const halfPrice = "0.00001";
+  const wrapAmount = "1.02";
+  const halfPrice = "0.01";
   
   beforeEach(async function () {
     const ColorsContract = await hre.ethers.getContractFactory("Colors");
