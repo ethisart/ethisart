@@ -16,9 +16,9 @@ contract NFETH is ERC721, ERC721Enumerable, Ownable {
 
   uint256 public constant MAX_ETHERPIECES = 10000;
   string public constant DESCRIPTION = "ETH IS ART allows you to wrap 1 ETH into a randomly generated and fully onchain ETH artwork - an NF-ETH";
-  uint256 public wrapAmount = 0.001 ether; //TODO CHANGE
-  uint256 public price = 0.0002 ether; //TODO CHANGE
-  uint256 public halfPrice = 0.0001 ether; //TODO CHANGE
+  uint256 public wrapAmount = 0.0001 ether; //TODO CHANGE
+  uint256 public price = 0.00002 ether; //TODO CHANGE
+  uint256 public halfPrice = 0.00001 ether; //TODO CHANGE
   address public creatorRecipient = 0x62badb7E5363018166E60e62125d771cb27EAB06; //TODO CHANGE
   address public donationRecipient = 0x995047b7DD64e233Ea837C27d9e0450c6dc9Fe29; //TODO CHANGE
   
@@ -74,9 +74,10 @@ contract NFETH is ERC721, ERC721Enumerable, Ownable {
 
     string memory c0seed = string(abi.encodePacked(colorSeed, "COLOR0"));
     Colors.Color memory base = Colors.fromSeedWithMinMax(c0seed, 0, 359, 100, 100, 50, 100);
-
+    uint256 hMin = base.hue + 359 - Colors.valueFromSeed(c0seed, 0, 30);
+    uint256 hMax = base.hue + 359 - Colors.valueFromSeed(c0seed, 0, 40);
     string memory c0 = base.toHSLString();
-    string memory c1 = Colors.fromSeedWithMinMax(string(abi.encodePacked(colorSeed, "COLOR1")), base.hue - 30, base.hue - 40, 100, 100, 50, 100).toHSLString();
+    string memory c1 = Colors.fromSeedWithMinMax(string(abi.encodePacked(colorSeed, "COLOR1")), hMin, hMax, 100, 100, 50, 100).toHSLString();
     string memory bg = Colors.fromSeedWithMinMax(string(abi.encodePacked(colorSeed, "BACKGROUND")), 200, 350, 60, 90, 0, 10).toHSLString();
 
     string[27] memory parts;
@@ -102,11 +103,11 @@ contract NFETH is ERC721, ERC721Enumerable, Ownable {
     parts[19] = c0;
     parts[20] = '"/> </linearGradient> </defs> <rect id="l2" width="2048" height="2048" rx="0" ry="0" transform="matrix(1 0 0 1 1.6 0)" fill="';
     parts[21] = bg;
-    parts[22] = '" stroke="none" stroke-width="1"/> <g id="l3"> <g id="l4"> <g id="l5" opacity="0.8"> <path id="l6" d="M1024.7,813L550.4,1029.9L1024.8,1311.7L1498.9,1029.9L1024.7,813Z" transform="matrix(0.9976 0 0 1 3.45916 -1)" fill="url(#l6-fill)" stroke="none" stroke-width="1"/>';
-    parts[23] = '</g> </g> <g id="l7"> <path id="l8" d="M1024.7,243.8L1024.7,1309L551.3,1029.3L1024.7,243.8Z" transform="matrix(1 0 0 1 1 0)" opacity="0.5" fill="url(#l8-fill)" stroke="none" stroke-width="1"/> </g> <g id="l9">';
-    parts[24] = '<path id="i0" d="M1025.6,1309.1L1025.6,243.8L1498.8,1029.3L1025.6,1309.1Z" opacity="0.8" fill="url(#i0-fill)" stroke="none" stroke-width="1"/> </g> <g id="i1"> <g id="i2" opacity="0.9">';
-    parts[25] = '<path id="i3" d="M1024.7,1402.9L1024.7,1787.5L554.5,1125.1L1024.7,1402.9Z" transform="matrix(1 0 0 1 1 0)" opacity="0.45" fill="url(#i3-fill)" stroke="none" stroke-width="1"/> </g> <g id="i4" opacity="0.8">';
-    parts[26] = '<path id="i5" d="M1496,1125.2L1025.6,1787.6L1025.6,1403L1496,1125.2Z" opacity="0.8" fill="url(#i5-fill)" stroke="none" stroke-width="1"/> </g> </g> </g> </svg>';
+    parts[22] = '" /> <g id="l3"> <g id="l4"> <g id="l5" opacity="0.8"> <path id="l6" d="M1024.7,813L550.4,1029.9L1024.8,1311.7L1498.9,1029.9L1024.7,813Z" transform="matrix(0.9976 0 0 1 3.45916 -1)" fill="url(#l6-fill)" />';
+    parts[23] = '</g> </g> <g id="l7"> <path id="l8" d="M1024.7,243.8L1024.7,1309L551.3,1029.3L1024.7,243.8Z" transform="matrix(1 0 0 1 1 0)" opacity="0.5" fill="url(#l8-fill)" /> </g> <g id="l9">';
+    parts[24] = '<path id="i0" d="M1025.6,1309.1L1025.6,243.8L1498.8,1029.3L1025.6,1309.1Z" opacity="0.8" fill="url(#i0-fill)" /> </g> <g id="i1"> <g id="i2" opacity="0.9">';
+    parts[25] = '<path id="i3" d="M1024.7,1402.9L1024.7,1787.5L554.5,1125.1L1024.7,1402.9Z" transform="matrix(1 0 0 1 1 0)" opacity="0.45" fill="url(#i3-fill)" /> </g> <g id="i4" opacity="0.8">';
+    parts[26] = '<path id="i5" d="M1496,1125.2L1025.6,1787.6L1025.6,1403L1496,1125.2Z" opacity="0.8" fill="url(#i5-fill)" /> </g> </g> </g> </svg>';
 
     string memory output = string(abi.encodePacked(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], parts[6], parts[7], parts[8], parts[9], parts[10]));
     output = string(abi.encodePacked(output, parts[11], parts[12], parts[13], parts[14], parts[15], parts[16], parts[17], parts[18], parts[19], parts[20]));

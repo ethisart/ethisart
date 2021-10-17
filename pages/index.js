@@ -15,7 +15,7 @@ const injected = new InjectedConnector({ supportedChainIds: [1, 3, 4, 5, 42] });
 const wcConnector = new WalletConnectConnector({
   infuraId: "cddde80366fc42c2ac9202c6a0f9850b",
 });
-const wrapAmount = "0.0012";
+const wrapAmount = "0.00012"; //TODO CHANGE
 
 export default function WrappedHome() {
   return (
@@ -157,7 +157,7 @@ function Home() {
                   <strong>Redeem NF-ETH for ETH</strong>
                   </p>
                   <p>
-                    Input your NF-ETH token id to redeem it for ETH. (Warning: This will destroy the NF-ETH forever)
+                    Input your NF-ETH token id to redeem it for ETH. <strong>Warning:</strong> This will destroy the NF-ETH forever.
                   </p>
                   <input
                     ref={redeemField}
