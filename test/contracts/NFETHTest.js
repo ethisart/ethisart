@@ -9,7 +9,7 @@ describe("NFETH", function () {
   let owner;
   let wallet1;
   let wallet2;
-  const wrapAmount = "1.0";
+  const wrapAmount = "1.02";
   const halfPrice = "0.01";
   
   beforeEach(async function () {
@@ -54,38 +54,40 @@ describe("NFETH", function () {
         value: ethers.utils.parseEther("0.0001"),
       })
     ).to.be.revertedWith("PRICE_NOT_MET");
-
-    // await expect(
-    //   contractAsWallet.mintForFriend(wallet2.address, {
-    //     value: ethers.utils.parseEther("0.0002"),
-    //   })
-    // ).to.be.revertedWith("PRICE_NOT_MET");
   });
 
-  // it("can be crafted by anyone for someone else", async function () {
-  //   const contractAsWallet = await contract.connect(wallet1);
-  //   const token = await contractAsWallet.mintForFriend(wallet2.address, {
-  //     value: ethers.utils.parseEther("0.0012"),
-  //   });
-  //   expect(await contract.balanceOf(owner.address)).to.equal(0);
-  //   expect(await contract.balanceOf(wallet1.address)).to.equal(0);
-  //   expect(await contract.balanceOf(wallet2.address)).to.equal(1);
+  // it("donator and owner receives revenue", async function () {
+  //   //console.log(ethers.provider.getBalance(contractAsWallet.ownerRecipient()));
+  //   const contractAsWallet = await contract.connect(owner);
+  //   const preCreatorBalance = await ethers.provider.getBalance(contractAsWallet.creatorRecipient());
+  //   const preDonationBalance = await ethers.provider.getBalance(contractAsWallet.donationRecipient());
+  //   const price = ethers.utils.parseEther(halfPrice);
+ 
+  //   await contractAsWallet.mintForSelf({
+  //     value: ethers.utils.parseEther(wrapAmount),
+  //   });  
+    
+  //   expect(await ethers.provider.getBalance(contractAsWallet.creatorRecipient())).to.equal(preCreatorBalance.add(price));
+  //   expect(await ethers.provider.getBalance(contractAsWallet.donationRecipient())).to.equal(preDonationBalance.add(price));
+
   // });
 
-  it("donator and owner receives revenue", async function () {
-    //console.log(ethers.provider.getBalance(contractAsWallet.ownerRecipient()));
+  it("donator and owner can retrieve minting fee", async function () {
     const contractAsWallet = await contract.connect(owner);
     const preCreatorBalance = await ethers.provider.getBalance(contractAsWallet.creatorRecipient());
     const preDonationBalance = await ethers.provider.getBalance(contractAsWallet.donationRecipient());
     const price = ethers.utils.parseEther(halfPrice);
- 
+    expect(await contractAsWallet.sold()).to.equal(0);
     await contractAsWallet.mintForSelf({
       value: ethers.utils.parseEther(wrapAmount),
-    });  
-    
+    });
+
+    expect(await contractAsWallet.sold()).to.equal(1);
+    await contractAsWallet.withdrawFees();
+    expect(await contractAsWallet.sold()).to.equal(0);
+
     expect(await ethers.provider.getBalance(contractAsWallet.creatorRecipient())).to.equal(preCreatorBalance.add(price));
     expect(await ethers.provider.getBalance(contractAsWallet.donationRecipient())).to.equal(preDonationBalance.add(price));
-
   });
 
   it("redeems for ETH and only once", async function () {

@@ -19,6 +19,7 @@ contract NFETH is ERC721, ERC721Enumerable, Ownable {
   uint256 public wrapAmount = 1.0 ether;
   uint256 public price = 0.02 ether;
   uint256 public halfPrice = 0.01 ether;
+  uint256 public sold = 0; //reset upon withdrawal of fees
   address public creatorRecipient = 0xb397e4b169EF902C9e84065620f5bC9c53F2ee35;
   address public donationRecipient = 0x71C7656EC7ab88b098defB751B7401B5f6d8976F; //Etherscan donation address
   
@@ -43,23 +44,29 @@ contract NFETH is ERC721, ERC721Enumerable, Ownable {
     _tokenIdCounter.increment();
   }
 
+  //Mint 1 NF-ETH for 1 ETH + 0.02 ETH Minting Fee
   function mintForSelf() public payable virtual {
     require(msg.value == (wrapAmount+price), "PRICE_NOT_MET");
-    require(msg.sender != creatorRecipient && msg.sender != donationRecipient, "CREATOR AND DONATOR CANNOT CALL THIS FUNCTION"); //reentrancy guard
+    sold++;
     _mint(msg.sender);
-
-    //Transfer 0.01 ETH to Etherscan and to Creator
-    (bool donationFee, ) = donationRecipient.call{value: halfPrice}("");
-    (bool creatorFee, ) = creatorRecipient.call{value: halfPrice}("");
-    require(donationFee, "Failed to donate");
-    require(creatorFee, "Failed to pay creator"); 
   }
 
+  //Redeem 1 NF-ETH for 1 ETH
   function redeemForEth(uint256 tokenId) public {
     require(msg.sender == ERC721.ownerOf(tokenId), "NOT OWNER");
     _burn(tokenId);
     (bool success, ) = msg.sender.call{value: wrapAmount}("");
     require(success, "Failed to redeem Ether");
+  }
+
+  // Send minting fees to creator and donator
+  function withdrawFees() public onlyOwner {
+    uint256 withdrawAmount = sold;
+    sold = 0;
+    (bool donationFee, ) = donationRecipient.call{value: withdrawAmount*halfPrice}("");
+    (bool creatorFee, ) = creatorRecipient.call{value: withdrawAmount*halfPrice}("");
+    require(donationFee, "Failed to donate");
+    require(creatorFee, "Failed to pay creator"); 
   }
 
   function getCurrentTime() private view returns (uint256) {
