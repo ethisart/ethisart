@@ -268,7 +268,7 @@ The NF-ETH can <strong><em>always</em></strong> be redeemed back to 1 ETH, but t
           <div>
             <H4>Security</H4>
             <p>
-            The code has been externally reviewed, and thoroughly tested. The contract code is very simple and utilizes mostly standard secure contracts by OpenZeppelin. The only restricted function is to collect minting fees. The contract is immutable and cannot be upgraded, so what you see is what you get. The code is fully <A href="https://github.com/ethisart/ethisart/blob/main/contracts/NFETH.sol">open source for your verification</A>. <A href="https://github.com/ethisart/ethisart#disclaimer">See this disclaimer</A> and use at your own discretion.
+            The code has been externally reviewed, and thoroughly tested. The contract code is very simple and utilizes mostly standard secure contracts by OpenZeppelin. The only restricted function is to distribute minting fees. The contract is immutable and cannot be upgraded, so what you see is what you get. The code is fully <A href="https://github.com/ethisart/ethisart/blob/main/contracts/NFETH.sol">open source for your verification</A>. <A href="https://github.com/ethisart/ethisart#disclaimer">See this disclaimer</A> and use at your own discretion.
             </p>
           </div>
           <div>
