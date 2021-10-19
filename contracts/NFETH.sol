@@ -16,14 +16,14 @@ contract NFETH is ERC721, ERC721Enumerable, Ownable {
 
   uint256 public constant MAX_ETHERPIECES = 10000;
   string public constant DESCRIPTION = "ETH IS ART allows you to wrap 1 ETH into a randomly generated and fully onchain ETH artwork - an NF-ETH";
+  uint256 public sold = 0; //resets upon withdrawal of fees
+  
   uint256 public wrapAmount = 1.0 ether;
-  uint256 public price = 0.02 ether;
-  uint256 public halfPrice = 0.01 ether;
-  uint256 public sold = 0; //reset upon withdrawal of fees
+  uint256 public price = 0.01 ether;
+  uint256 public halfPrice = 0.005 ether;
   address public creatorRecipient = 0xb397e4b169EF902C9e84065620f5bC9c53F2ee35;
   address public donationRecipient = 0x71C7656EC7ab88b098defB751B7401B5f6d8976F; //Etherscan donation address
   
-
   Counters.Counter private _tokenIdCounter;
   mapping(uint256 => uint256[3]) private _seeds;
 
@@ -44,7 +44,7 @@ contract NFETH is ERC721, ERC721Enumerable, Ownable {
     _tokenIdCounter.increment();
   }
 
-  //Mint 1 NF-ETH for 1 ETH + 0.02 ETH Minting Fee
+  //Mint 1 NF-ETH for 1 ETH + 0.01 ETH Minting Fee
   function mintForSelf() public payable virtual {
     require(msg.value == (wrapAmount+price), "PRICE_NOT_MET");
     sold++;
@@ -54,7 +54,7 @@ contract NFETH is ERC721, ERC721Enumerable, Ownable {
   //Redeem 1 NF-ETH for 1 ETH
   function redeemForEth(uint256 tokenId) public {
     require(msg.sender == ERC721.ownerOf(tokenId), "NOT OWNER");
-    _burn(tokenId);
+    _burn(tokenId); //reentrancy guard - can only be redeemed once
     (bool success, ) = msg.sender.call{value: wrapAmount}("");
     require(success, "Failed to redeem Ether");
   }
@@ -62,9 +62,9 @@ contract NFETH is ERC721, ERC721Enumerable, Ownable {
   // Send minting fees to creator and donator
   function withdrawFees() public onlyOwner {
     uint256 withdrawAmount = sold;
-    sold = 0;
-    (bool donationFee, ) = donationRecipient.call{value: withdrawAmount*halfPrice}("");
-    (bool creatorFee, ) = creatorRecipient.call{value: withdrawAmount*halfPrice}("");
+    sold = 0; //reentrancy guard - only collects fees once
+    (bool donationFee, ) = donationRecipient.call{value: withdrawAmount*halfPrice}(""); //0.005 eth per mint
+    (bool creatorFee, ) = creatorRecipient.call{value: withdrawAmount*halfPrice}(""); //0.005 eth per mint
     require(donationFee, "Failed to donate");
     require(creatorFee, "Failed to pay creator"); 
   }

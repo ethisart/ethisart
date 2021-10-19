@@ -15,7 +15,7 @@ const injected = new InjectedConnector({ supportedChainIds: [1, 3, 4, 5, 42] });
 const wcConnector = new WalletConnectConnector({
   infuraId: "cddde80366fc42c2ac9202c6a0f9850b",
 });
-const wrapAmount = "1.02";
+const wrapAmount = "1.01";
 
 export default function WrappedHome() {
   return (
@@ -140,7 +140,7 @@ function Home() {
                 
                 <div className="text-sm space-y-2 leading-normal">
                   <p>
-                    <strong>Wrapping cost is Ξ0.02</strong>{" "}
+                    <strong>Wrapping cost is Ξ0.01 (not including gas cost)</strong>{" "}
                   </p>
                   <p>
                     All NF-ETHs are randomly generated and equally rare. The result will be different for each NF-ETH
@@ -256,7 +256,7 @@ The NF-ETH can <strong><em>always</em></strong> be redeemed back to 1 ETH, but t
       
             <H4>Minting fee funding a public good</H4>
             <p>
-            To avoid griefing from someone using flash loans to generate a lot of NF-ETHs, only to burn them again to reduce supply, there is a minting fee of 0.02 ETH. Half of the fee (0.01 ETH) goes to the creator (spoiler alert it‘s me), and the other half (0.01 ETH) goes to a public good. I have chosen <A href="https://etherscan.io/">Etherscan</A> (<A href="https://etherscan.io/address/0x71c7656ec7ab88b098defb751b7401b5f6d8976f">see donation address here</A>) as the recipient of the other half of the fee, as they provide critical infrastructure for the entire Ethereum Community. You can therefore feel very good about minting an NF-ETH. Give yourself a pat on the back.
+            To avoid griefing from someone using flash loans to generate a lot of NF-ETHs, only to burn them again to reduce supply, there is a minting fee of 0.01 ETH. Half of the fee (0.005 ETH) goes to the project creator, and the other half (0.005 ETH) goes to a public good. I have chosen <A href="https://etherscan.io/">Etherscan</A> (<A href="https://etherscan.io/address/0x71c7656ec7ab88b098defb751b7401b5f6d8976f">see donation address here</A>) as the recipient of the other half of the fee, as they provide critical infrastructure for the entire Ethereum Community. You can therefore feel very good about minting an NF-ETH. Give yourself a pat on the back.
             </p>
           </div>
           <div>
