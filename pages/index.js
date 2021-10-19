@@ -280,11 +280,11 @@ The NF-ETH can <strong><em>always</em></strong> be redeemed back to 1 ETH, but t
         </div>
       </div>
       <div className="text-sm p-5 md:p-16 leading-normal mb-8 text-center">
-        <A href="#">
+        <A href="https://etherscan.io/address/0xf36fFAb086BF1661375Aa3CB3093175b493efD41">
           Etherscan
         </A>{" "}
         &bull;{" "}
-        <A href="#">
+        <A href="https://opensea.io/collection/eth-is-art-nfeth">
           OpenSea
         </A>{" "}
         &bull;{" "}<A href="https://twitter.com/ETH_IS_ART">Twitter</A>{" "}
