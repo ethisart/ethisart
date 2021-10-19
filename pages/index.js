@@ -221,7 +221,7 @@ The NF-ETH can <strong><em>always</em></strong> be redeemed back to 1 ETH, but t
             <div>
             <H4>How do I wrap ETH into an NF-ETH?</H4>
             <p>
-              By connecting with Ethereum wallet above, you will be able to mint an NF-ETH, using the "Wrap 1 ETH" button. You need to have at least 1 ETH + 0.02 ETH to cover wrapping fee + gas cost to wrap your ETH. After wrapping, your NF-ETH should show up in your account instantly.
+              By connecting with Ethereum wallet above, you will be able to mint an NF-ETH, using the "Wrap 1 ETH" button. You need to have at least 1 ETH + 0.01 ETH to cover wrapping fee + gas cost to wrap your ETH. After wrapping, your NF-ETH should show up in your account instantly.
             </p>
           </div>
           <div>
