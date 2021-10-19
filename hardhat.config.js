@@ -30,9 +30,15 @@ module.exports = {
     },
   },
   networks: {
+    mainnet: {
+      url: process.env.MAINNET_ENDPOINT,
+      accounts: [process.env.M_PRIVATE_KEY],
+      gas: 5000000,
+      gasPrice: 56000000000,
+    },
     rinkeby: {
       url: process.env.RINKEBY_ENDPOINT,
-      accounts: [process.env.PRIVATE_KEY],
+      accounts: [process.env.R_PRIVATE_KEY],
     },
   },
   etherscan: {

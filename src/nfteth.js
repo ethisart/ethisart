@@ -1,4 +1,4 @@
-export const address = "0x0000000000000000000000000000000000000000"; // insert mainnet
+export const address = "0xf36fFAb086BF1661375Aa3CB3093175b493efD41"; // insert mainnet
 export const abi = [
     {
       "inputs": [],
